@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <h1 class="title">My Calculator</h1>
+        <div class="cal-c">
+            <p id="screen" class="screen"></p>
+            <div class="buttons-container">
+                <span class="button merge-2">C</span>
+                <span class="button">%</span>
+                <span class="button">/</span>
+
+                <span class="button">7</span>
+                <span class="button">8</span>
+                <span class="button">9</span>
+                <span class="button">*</span>
+
+                <span class="button">4</span>
+                <span class="button">5</span>
+                <span class="button">6</span>
+                <span class="button">-</span>
+
+                <span class="button">3</span>
+                <span class="button">2</span>
+                <span class="button">1</span>
+                <span class="button">+</span>
+
+                <span class="button merge-2">0</span>
+                <span class="button">.</span>
+                <span class="button">=</span>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var btnsCollection = document.getElementsByClassName('button');
+        var screenEle = document.getElementById('screen')
+        var evaluated = false;
+        var lastClicked;
+        var operations = ["%", "/", "*", "-", "+"]
+        btnArr = Array.from(btnsCollection);
+        btnArr.forEach(btn=>{
+            btn.addEventListener('click', ()=>{
+
+                var operation = this.event.target.innerHTML;
+                if (operations.includes(lastClicked) && operations.includes(operation)){
+                    lastClicked = operation;
+                    return;
+                }else{
+                    lastClicked = operation;
+                    if(evaluated){
+                        switch (operation) {
+                            case operations[operations.indexOf(operation)]:
+                                break;                        
+                            default:
+                                screenEle.innerHTML = "";
+                                break;
+                            }
+                            evaluated = false;
+                    }    
+                    
+                    switch (operation) {
+                        case "C":
+                            screenEle.innerHTML = "";
+                            break;
+                        case "=":
+                            if(screenEle.innerHTML.length>0){
+                                screenEle.innerHTML = eval(screenEle.innerHTML);
+                                evaluated = true;
+                            }
+                            break;
+                        default:
+                            screenEle.innerHTML += operation;
+                            break;
+                    }                
+                }
+            })
+        })
+    </script>
+</body>
+</html>
